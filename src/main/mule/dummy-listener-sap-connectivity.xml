@@ -12,9 +12,9 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 			<apikit:flow-mapping resource="/test" action="get" flow-ref="get:\test:dummy-listener-sap-connectivity-config" />
 		</apikit:flow-mappings>
 	</apikit:config>
-	<api-gateway:autodiscovery apiId="15707339" doc:name="API Autodiscovery" doc:id="d1bd9dc4-1966-4976-9a22-ba322c79ef7c" flowRef="dummy-listener-sap-connectivity-main" />
+	<api-gateway:autodiscovery apiId="15707339" doc:name="API Autodiscovery" doc:id="d1bd9dc4-1966-4976-9a22-ba322c79ef7c" flowRef="dummy-listener-main" />
 	<os:object-store name="cbstore" doc:name="Object store" doc:id="4916636c-88ac-42f5-98c0-0577f61948bc" entryTtl="1" entryTtlUnit="HOURS" />
-	<flow name="dummy-listener-sap-connectivity-main">
+	<flow name="dummy-listener-main">
         <http:listener config-ref="dummy-listener-sap-connectivity-httpListenerConfig" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
@@ -106,7 +106,7 @@ output application/json
             </on-error-propagate>
         </error-handler>
     </flow>
-    <flow name="dummy-listener-sap-connectivity-console">
+    <flow name="dummy-listener-console">
         <http:listener config-ref="dummy-listener-sap-connectivity-httpListenerConfig" path="/console/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers>#[vars.outboundHeaders default {}]</http:headers>
@@ -133,7 +133,7 @@ output application/json
             </on-error-propagate>
         </error-handler>
     </flow>
-    <flow name="get:\test:dummy-listener-sap-connectivity-config">
+    <flow name="get:\test:dummy-listener-config">
         <choice doc:name="Choice" doc:id="ec94e571-e5c2-4ac3-b447-b621a9d435b3" >
 			<when expression="#[isEven(randomInt(1000))]">
 				<logger level="INFO" doc:name="Logger" doc:id="e8db01bc-fc8b-46ba-bc65-af2a0b55f291" />
