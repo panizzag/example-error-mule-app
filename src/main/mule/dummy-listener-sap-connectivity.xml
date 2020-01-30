@@ -134,14 +134,21 @@ output application/json
         </error-handler>
     </flow>
     <flow name="get:\test:dummy-listener-sap-connectivity-config">
-        <ee:transform doc:name="cause-error" doc:id="d9b866e2-8e24-43d8-ad23-352eebfc4dc4" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+        <choice doc:name="Choice" doc:id="ec94e571-e5c2-4ac3-b447-b621a9d435b3" >
+			<when expression="#[isEven(randomInt(1000))]">
+				<logger level="INFO" doc:name="Logger" doc:id="e8db01bc-fc8b-46ba-bc65-af2a0b55f291" />
+			</when>
+			<otherwise >
+				<ee:transform doc:name="cause-error" doc:id="d9b866e2-8e24-43d8-ad23-352eebfc4dc4">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 output application/java
 ---
 1/0]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+			</otherwise>
+		</choice>
 		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="2816c7cf-e9bd-4c9f-928f-996e24903f64">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
